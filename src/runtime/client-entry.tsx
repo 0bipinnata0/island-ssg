@@ -9,6 +9,4 @@ function renderInBrowser() {
   createRoot(containerEl).render(<App />);
 }
 
-console.info(">>>");
-
 renderInBrowser();
