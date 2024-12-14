@@ -3,7 +3,8 @@ import { CLIENT_ENTRY_PATH, SERVER_ENTRY_PATH } from "./constants";
 import pluginReact from "@vitejs/plugin-react";
 import type { RollupOutput } from "rollup";
 import { join } from "path";
-import * as fs from "fs-extra";
+import fs from "fs-extra";
+import { pathToFileURL } from "url";
 
 export async function bundle(root: string) {
   const resolveViteConfig = (isServer: boolean): InlineConfig => ({
@@ -24,7 +25,6 @@ export async function bundle(root: string) {
   });
 
   console.log(`Building client + server bundles...`);
-
   try {
     const [clientBundle, serverBundle] = await Promise.all([
       // client build
@@ -75,6 +75,7 @@ export async function build(root: string = process.cwd()) {
   const [clientBundle, serverBundle] = result;
   // 引入 ssr 入口模块
   const serverEntryPath = join(root, ".temp", "ssr-entry.js");
-  const { render } = require(serverEntryPath);
+  // @ts-ignore 
+  const { render } = await import(pathToFileURL(serverEntryPath));
   await renderPage(render, root, clientBundle);
 }
