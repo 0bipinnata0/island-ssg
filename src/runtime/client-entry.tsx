@@ -1,5 +1,8 @@
+import siteData from "island:site-data";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
+
+console.log(siteData);
 
 function renderInBrowser() {
   const containerEl = document.getElementById("root");

@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 import { resolve } from "path";
 import { loadConfigFromFile } from "vite";
-import { SiteConfig, UserConfig } from "../shared/types";
+import { SiteConfig, UserConfig } from "shared/types";
 
 function getUserConfigPath(root: string) {
   try {
