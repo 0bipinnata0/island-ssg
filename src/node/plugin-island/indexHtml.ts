@@ -7,7 +7,6 @@ export function pluginIndexHtml(): Plugin {
     name: "island:index-html",
     apply: "serve",
     transformIndexHtml(html) {
-      console.info("CLIENT_ENTRY_PATH", CLIENT_ENTRY_PATH);
       return {
         html,
         tags: [
