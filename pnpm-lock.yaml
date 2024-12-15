@@ -47,6 +47,9 @@ importers:
       remark-mdx-frontmatter:
         specifier: ^5.0.0
         version: 5.0.0
+      unified:
+        specifier: ^11.0.5
+        version: 11.0.5
       vite:
         specifier: ^6.0.3
         version: 6.0.3(@types/node@22.10.2)(terser@5.37.0)(yaml@2.6.1)
@@ -57,6 +60,9 @@ importers:
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
+      '@types/hast':
+        specifier: ^3.0.4
+        version: 3.0.4
       '@types/node':
         specifier: ^22.10.2
         version: 22.10.2
@@ -78,6 +84,9 @@ importers:
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
 
 packages:
 
