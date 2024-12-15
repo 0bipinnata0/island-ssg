@@ -2,7 +2,6 @@
 import fastGlob from "fast-glob";
 import { normalizePath } from "vite";
 import path from "path";
-
 interface RouteMeta {
   routePath: string;
   absolutePath: string;
@@ -49,7 +48,8 @@ export class RouteService {
   generateRoutesCode() {
     return `
   import React from 'react';
-  import loadable from '@loadable/component';
+  import rawLoadable from '@loadable/component';
+  const loadable = typeof rawLoadable === 'function' ? rawLoadable : rawLoadable.default;
   ${this.#routeData
     .map((route, index) => {
       return `const Route${index} = loadable(() => import('${route.absolutePath}'));`;

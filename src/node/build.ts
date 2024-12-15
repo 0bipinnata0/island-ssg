@@ -17,7 +17,7 @@ export async function bundle(root: string, config: SiteConfig) {
     plugins: createVitePlugins(config),
     build: {
       ssr: isServer,
-      outDir: isServer ? ".temp" : "build",
+      outDir: join(root, isServer ? ".temp" : "build"),
       rollupOptions: {
         input: isServer ? SERVER_ENTRY_PATH : CLIENT_ENTRY_PATH,
         output: {

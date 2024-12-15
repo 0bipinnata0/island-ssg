@@ -29,7 +29,6 @@ cli
 cli
   .command("build [root]", "build for production")
   .action(async (root: string) => {
-    console.log("build", root);
     try {
       root = resolve(root);
       const config = await resolveConfig(root, "build", "production");
