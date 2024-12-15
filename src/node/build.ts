@@ -5,13 +5,15 @@ import type { RollupOutput } from "rollup";
 import { join } from "path";
 import fs from "fs-extra";
 import { pathToFileURL } from "url";
+import { SiteConfig } from "shared/types";
+import { pluginConfig } from "./plugin-island/config";
 
-export async function bundle(root: string) {
+export async function bundle(root: string, config: SiteConfig) {
   const resolveViteConfig = (isServer: boolean): InlineConfig => ({
     mode: "production",
     root,
     // 注意加上这个插件，自动注入 import React from 'react'，避免 React is not defined 的错误
-    plugins: [pluginReact()],
+    plugins: [pluginReact(), pluginConfig(config, () => Promise.resolve())],
     build: {
       ssr: isServer,
       outDir: isServer ? ".temp" : "build",
@@ -67,15 +69,15 @@ export async function renderPage(
   await fs.remove(join(root, ".temp"));
 }
 
-export async function build(root: string = process.cwd()) {
-  const result = await bundle(root);
+export async function build(root: string = process.cwd(), config: SiteConfig) {
+  const result = await bundle(root, config);
   if (!result) {
     return;
   }
   const [clientBundle, serverBundle] = result;
   // 引入 ssr 入口模块
   const serverEntryPath = join(root, ".temp", "ssr-entry.js");
-  // @ts-ignore 
+  // @ts-ignore
   const { render } = await import(pathToFileURL(serverEntryPath));
   await renderPage(render, root, clientBundle);
 }
