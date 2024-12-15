@@ -16,15 +16,18 @@
   "devDependencies": {
     "@loadable/component": "^5.16.4",
     "@types/fs-extra": "^11.0.4",
+    "@types/hast": "^3.0.4",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",
     "ora": "^8.1.1",
     "rollup": "^4.28.1",
     "tsup": "^8.3.5",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "unist-util-visit": "^5.0.0"
   },
   "dependencies": {
+    "unified": "^11.0.5",
     "@mdx-js/rollup": "^3.1.0",
     "@vitejs/plugin-react": "^4.3.4",
     "cac": "^6.7.14",
