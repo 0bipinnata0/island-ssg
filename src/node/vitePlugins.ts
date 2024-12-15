@@ -11,13 +11,14 @@ export function createVitePlugins(
 ) {
   return [
     pluginIndexHtml(),
+    createPluginMdx(),
     pluginReact({
+      include: /\.(mdx|js|jsx|ts|tsx)$/,
       jsxRuntime: "automatic",
     }),
     pluginConfig(config, restartServer),
     pluginRoutes({
       root: config.root,
     }),
-    createPluginMdx(),
   ];
 }

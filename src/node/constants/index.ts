@@ -1,6 +1,6 @@
 import { join } from "path";
 
-export const PACKAGE_ROOT = join(__dirname, '..');
+export const PACKAGE_ROOT = join(__dirname, "..");
 
 export const DEFAULT_HTML_PATH = join(PACKAGE_ROOT, "template.html");
 
@@ -16,3 +16,5 @@ export const SERVER_ENTRY_PATH = join(
   "runtime",
   "ssr-entry.tsx"
 );
+
+export const MD_REGEX = /\.mdx?$/;
