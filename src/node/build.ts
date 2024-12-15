@@ -7,16 +7,17 @@ import fs from "fs-extra";
 import { pathToFileURL } from "url";
 import { SiteConfig } from "shared/types";
 import { pluginConfig } from "./plugin-island/config";
+import { createVitePlugins } from "./vitePlugins";
 
 export async function bundle(root: string, config: SiteConfig) {
   const resolveViteConfig = (isServer: boolean): InlineConfig => ({
     mode: "production",
     root,
     // 注意加上这个插件，自动注入 import React from 'react'，避免 React is not defined 的错误
-    plugins: [pluginReact(), pluginConfig(config, () => Promise.resolve())],
+    plugins: createVitePlugins(config),
     build: {
       ssr: isServer,
-      outDir: isServer ? ".temp" : "build",
+      outDir: join(root, isServer ? ".temp" : "build"),
       rollupOptions: {
         input: isServer ? SERVER_ENTRY_PATH : CLIENT_ENTRY_PATH,
         output: {

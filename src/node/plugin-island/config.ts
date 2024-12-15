@@ -7,7 +7,7 @@ const SITE_DATA_ID = "island:site-data";
 
 export function pluginConfig(
   config: SiteConfig,
-  restartServer: () => Promise<void>
+  restartServer?: () => Promise<void>
 ): Plugin {
   return {
     name: "island:config",
@@ -31,7 +31,7 @@ export function pluginConfig(
           `\n${relative(config.root, ctx.file)} changed, restarting server...`
         );
         // 重启 Dev Server
-        await restartServer();
+        await restartServer?.();
       }
     },
 
