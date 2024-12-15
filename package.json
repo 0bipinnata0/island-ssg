@@ -27,12 +27,12 @@
     "unist-util-visit": "^5.0.0"
   },
   "dependencies": {
-    "unified": "^11.0.5",
     "@mdx-js/rollup": "^3.1.0",
     "@vitejs/plugin-react": "^4.3.4",
     "cac": "^6.7.14",
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
+    "hast-util-from-html": "^2.0.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.0.2",
@@ -41,6 +41,8 @@
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.0",
     "remark-mdx-frontmatter": "^5.0.0",
+    "shiki": "^1.24.2",
+    "unified": "^11.0.5",
     "vite": "^6.0.3"
   }
 }
