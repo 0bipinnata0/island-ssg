@@ -1,7 +1,5 @@
 import { cac } from "cac";
 import pkg from "../../package.json";
-import path from "path";
-import { createDevServer } from "./dev";
 import { build } from "./build";
 import { resolve } from "path";
 import { resolveConfig } from "./config";

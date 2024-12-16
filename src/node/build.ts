@@ -1,18 +1,19 @@
 import { InlineConfig, build as viteBuild } from "vite";
 import { CLIENT_ENTRY_PATH, SERVER_ENTRY_PATH } from "./constants";
 import type { RollupOutput } from "rollup";
-import { join } from "path";
+import { dirname, join } from "path";
 import fs from "fs-extra";
 import { pathToFileURL } from "url";
 import { SiteConfig } from "shared/types";
 import { createVitePlugins } from "./vitePlugins";
+import { Route } from "./plugin-routes";
 
 export async function bundle(root: string, config: SiteConfig) {
   const resolveViteConfig = (isServer: boolean): InlineConfig => ({
     mode: "production",
     root,
     // 注意加上这个插件，自动注入 import React from 'react'，避免 React is not defined 的错误
-    plugins: createVitePlugins(config),
+    plugins: createVitePlugins(config, undefined, isServer),
     build: {
       ssr: isServer,
       outDir: join(root, isServer ? ".temp" : "build"),
@@ -40,7 +41,8 @@ export async function bundle(root: string, config: SiteConfig) {
 }
 
 export async function renderPage(
-  render: () => string,
+  render: (url: string) => string,
+  routes: Route[],
   root: string,
   clientBundle: RollupOutput
 ) {
@@ -48,8 +50,12 @@ export async function renderPage(
     (chunk) => chunk.type === "chunk" && chunk.isEntry
   );
   console.log(`Rendering page in server side...`);
-  const appHtml = render();
-  const html = `
+
+  return Promise.all(
+    routes.map(async (route) => {
+      const routePath = route.path;
+      const appHtml = render(routePath);
+      const html = `
 <!DOCTYPE html>
 <html>
   <head>
@@ -63,9 +69,13 @@ export async function renderPage(
     <script type="module" src="/${clientChunk?.fileName}"></script>
   </body>
 </html>`.trim();
-  await fs.ensureDir(join(root, "build"));
-  await fs.writeFile(join(root, "build/index.html"), html);
-  await fs.remove(join(root, ".temp"));
+      const fileName = routePath.endsWith("/")
+        ? `${routePath}index.html`
+        : `${routePath}.html`;
+      await fs.ensureDir(join(root, "build", dirname(fileName)));
+      await fs.writeFile(join(root, "build", fileName), html);
+    })
+  );
 }
 
 export async function build(root: string = process.cwd(), config: SiteConfig) {
@@ -76,7 +86,10 @@ export async function build(root: string = process.cwd(), config: SiteConfig) {
   const [clientBundle, serverBundle] = result;
   // 引入 ssr 入口模块
   const serverEntryPath = join(root, ".temp", "ssr-entry.js");
+
   // @ts-ignore
-  const { render } = await import(pathToFileURL(serverEntryPath));
-  await renderPage(render, root, clientBundle);
+  const { routes, render } = await import(pathToFileURL(serverEntryPath));
+  // await renderPage(render, root, clientBundle);
+
+  await renderPage(render, routes, root, clientBundle);
 }
