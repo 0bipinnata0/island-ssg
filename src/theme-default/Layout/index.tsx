@@ -1,3 +1,4 @@
+import "uno.css";
 import { useState } from "react";
 import { Content } from "../../runtime";
 
@@ -10,6 +11,9 @@ export function Layout() {
         {count}
         <button onClick={() => setCount(count + 1)}>Add Count</button>
       </div>
+      <h1 p="2" m="5" className="p-5">
+        Common Content
+      </h1>
 
       <h1>Doc Content</h1>
       <Content />
