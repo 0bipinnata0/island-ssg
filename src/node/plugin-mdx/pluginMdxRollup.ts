@@ -16,7 +16,7 @@ export async function pluginMdxRollup(): Promise<Plugin> {
     remarkPlugins: [
       remarkPluginGFM,
       remarkPluginFrontmatter,
-      remarkPluginMDXFrontMatter,
+      [remarkPluginMDXFrontMatter, { name: "frontmatter" }],
       remarkPluginToc,
     ],
     rehypePlugins: [
